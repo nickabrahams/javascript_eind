@@ -12,6 +12,6 @@
     catch(mysqli_sql_exception){
         echo "kan niet verbinden met de database!";
     }
-    if ($conn) {
-        echo "Database Verbinding is gelukt!";
-    }
+//    if ($conn) {
+//        echo "Database Verbinding is gelukt!";
+//    }
