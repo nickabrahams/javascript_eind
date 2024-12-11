@@ -11,11 +11,14 @@ function zoekPokemon() {
 
             if (data.length > 0) {
                 // Toon de resultaten
-                let html = '<ul>';
+                let html = '';
                 data.forEach(data => {
-                    html += `<li>Pokemon gevonden in database: ${data.name}</li>`;
+                    html += `Pokemon gevonden in database:<br>`;
+                    html += `Naam: ${data.name}<br>`;
+                    html += `id: ${data.p_id}<br>`;
+                    html += `Ervaring: ${data.base_experience}<br>`;
+                    html += `Lengte: ${data.height}<br><br>`;
                 });
-                html += '</ul>';
                 resultElement.innerHTML = html;
             }
                 else {
@@ -29,7 +32,13 @@ function zoekPokemon() {
                         return response.json();
                     })
                     .then(pokemonData => {
-                        resultElement.innerHTML = `Pokemon gevonden in API: ${pokemonData.name}, id: ${pokemonData.id}`;
+                        resultElement.innerHTML = `
+                Pokemon gevonden in API: 
+                <br>name: ${pokemonData.name}
+                <br>id: ${pokemonData.id}
+                <br>Ervaring: ${pokemonData.base_experience}
+                <br>Lengte: ${pokemonData.height}
+            `;
                     })
                     .catch(error => {
                         resultElement.innerHTML = 'Pokemon niet gevonden in database of API';
