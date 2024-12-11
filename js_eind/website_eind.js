@@ -1,7 +1,7 @@
 document.getElementById('zoekButton').addEventListener('click', zoekPokemon);
 
 function zoekPokemon() {
-    const zoekTerm = document.getElementById('zoekInput').value;
+    const zoekTerm = document.getElementById('zoekInput').value.toLowerCase();
 
     // fetch aanvraag naar de handler.php
     fetch(`handler.php?search=${encodeURIComponent(zoekTerm)}`)
@@ -13,14 +13,30 @@ function zoekPokemon() {
                 // Toon de resultaten
                 let html = '<ul>';
                 data.forEach(data => {
-                    html += `<li>${data.name}</li>`;
+                    html += `<li>Pokemon gevonden in database: ${data.name}</li>`;
                 });
                 html += '</ul>';
                 resultElement.innerHTML = html;
-            } else {
-                resultElement.innerHTML = 'Geen resultaten gevonden';
-                // api aanroepen
             }
+                else {
+                // api aanroepen
+
+                fetch(`https://pokeapi.co/api/v2/pokemon/${zoekTerm}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Pokemon niet gevonden');
+                        }
+                        return response.json();
+                    })
+                    .then(pokemonData => {
+                        resultElement.innerHTML = `Pokemon gevonden in API: ${pokemonData.name}, id: ${pokemonData.id}`;
+                    })
+                    .catch(error => {
+                        resultElement.innerHTML = 'Pokemon niet gevonden in database of API';
+                    });
+            }
+
+
         })
         .catch(error => {
             console.error('Error:', error);
