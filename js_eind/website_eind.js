@@ -3,7 +3,14 @@ document.getElementById('zoekButton').addEventListener('click', zoekPokemon);
 function zoekPokemon() {
     const zoekTerm = document.getElementById('zoekInput').value.toLowerCase();
 
-    // fetch aanvraag naar de handler.php
+    // controle voor als zoekterm leeg is
+    if (zoekTerm.trim() === '') {
+        // innerHTML = 'zoekvlag is leeg';
+        alert("zoekvlag is leeg");
+        return;
+    }
+
+    // eerst fetchen naar database
     fetch(`handler.php?search=${encodeURIComponent(zoekTerm)}`)
         .then(response => response.json())
         .then(data => {
@@ -21,7 +28,7 @@ function zoekPokemon() {
                 });
                 resultElement.innerHTML = html;
             }
-                else {
+            else {
                 // api aanroepen
 
                 fetch(`https://pokeapi.co/api/v2/pokemon/${zoekTerm}`)
